@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Alpego Tramline – Configuratore</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Tramline">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#161d2a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--dd:block;--dl:none;--bg:#0b0f17;--card:#161d2a;--card2:#1d2636;--ink:#f8fafc;--mut:#94a3b8;--line:rgba(255,255,255,.1);--y:#FCC133;--yt:#FCC133;--yink:#1a1400;--ok:#22c55e;--off:#ef4444;--tire:#8b5a2b;--spr:#38bdf8;--fld:#0c121e;--ytint:rgba(252,193,51,.1);--yb:rgba(252,193,51,.55);--ysel:rgba(252,193,51,.22);--ytr:rgba(252,193,51,.07);--yg:#FCC133;--co1:.06;--co2:.34;--co3:.16;--fh:'Barlow Condensed','Arial Narrow',sans-serif;--fb:'Barlow',system-ui,sans-serif;
+box-sizing:border-box;padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--topH:calc(67px + env(safe-area-inset-top,0px));--ibw:44px;--gl:rgba(22,29,42,.94)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--gl:rgba(255,255,255,.94)}}
+:root[data-theme="dark"]{--gl:rgba(22,29,42,.94)}
+:root[data-theme="light"]{--gl:rgba(255,255,255,.94)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){color-scheme:light;--dd:none;--dl:block;--bg:#f1f3f7;--card:#fff;--card2:#eef1f6;--ink:#0f172a;--mut:#5b6678;--line:rgba(15,23,42,.12);--yt:#8a5f00;--fld:#e9edf4;--ytint:rgba(252,193,51,.42);--yb:#D9A000;--ysel:rgba(252,193,51,.55);--ytr:rgba(252,193,51,.24);--yg:#DE9F00;--co1:.16;--co2:.6;--co3:.4}}
+:root[data-theme="dark"]{color-scheme:dark;--dd:block;--dl:none;--bg:#0b0f17;--card:#161d2a;--card2:#1d2636;--ink:#f8fafc;--mut:#94a3b8;--line:rgba(255,255,255,.1);--yt:#FCC133;--fld:#0c121e;--ytint:rgba(252,193,51,.1);--yb:rgba(252,193,51,.55);--ysel:rgba(252,193,51,.22);--ytr:rgba(252,193,51,.07);--yg:#FCC133;--co1:.06;--co2:.34;--co3:.16}
+:root[data-theme="light"]{color-scheme:light;--dd:none;--dl:block;--bg:#f1f3f7;--card:#fff;--card2:#eef1f6;--ink:#0f172a;--mut:#5b6678;--line:rgba(15,23,42,.12);--yt:#8a5f00;--fld:#e9edf4;--ytint:rgba(252,193,51,.42);--yb:#D9A000;--ysel:rgba(252,193,51,.55);--ytr:rgba(252,193,51,.24);--yg:#DE9F00;--co1:.16;--co2:.6;--co3:.4}
+html{scroll-padding-top:var(--topH)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.45 var(--fb);padding-top:var(--topH);padding-bottom:96px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+html,body{overflow-x:hidden;max-width:100%}
+.app{max-width:1280px;margin:0 auto;padding:12px;display:grid;grid-template-columns:minmax(0,1fr);gap:14px;width:100%}
+main{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;min-width:0}
+.card,.k,.head{min-width:0}
+.stage{width:100%;max-width:100%}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+h1,h2,h3{font-family:var(--fh);margin:0;letter-spacing:.01em}
+h2{font-size:1.25rem;font-weight:600}
+.top{position:fixed;top:0;left:0;right:0;z-index:25;display:flex;align-items:center;gap:12px;padding:calc(12px + env(safe-area-inset-top,0px)) 12px 10px 12px;border-bottom:3px solid var(--y);background:var(--card)}
+.top .ib,.lw{flex:none}
+.top .ib{width:var(--ibw);height:44px}
+
+@media(max-width:400px){.top h1{font-size:1.15rem}.ttl{padding-left:8px}.top{gap:8px}}
+@media(max-width:340px){:root{--ibw:40px}}
+.logo{width:42px;height:42px;border-radius:11px;background:var(--y);color:var(--yink);display:grid;place-items:center;font:700 1.7rem var(--fh)}
+.top h1{font-size:1.5rem;font-weight:700;line-height:1;white-space:nowrap}
+.top small{color:var(--mut);display:block;font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .sp{flex:1}
+.lg{height:36px;width:auto;flex:none}.lg-l{display:var(--dl)}.lg-d{display:var(--dd)}
+.lc0{fill:#0095d8}.lc1{fill:#15357b}.lw0{fill:#fff}
+.ttl{border-left:1px solid var(--line);padding-left:12px;min-width:0}
+.sum{display:grid;gap:14px;border-left:4px solid var(--y)}
+.hero{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.hero .lbl{font-size:.85rem;color:var(--mut)}
+.hn{display:flex;align-items:baseline;gap:8px}.hn b{font:700 3.4rem/1 var(--fh);color:var(--yt)}.hn em{font-style:normal;color:var(--mut);font-weight:500}
+.cfg{padding:6px 14px;border-radius:99px;font-weight:600;font-size:.9rem;border:1px solid}
+.cfg.ok{color:var(--ok);border-color:var(--ok);background:rgba(34,197,94,.1)}.cfg.wn{color:var(--yt);border-color:var(--yb);background:var(--ytint)}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mini>div{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px;min-width:0}
+.mini span{display:block;font-size:.8rem;color:var(--mut)}
+.mini b{font:700 1.5rem/1.15 var(--fh)}.mini em{font-style:normal;font-size:.85rem;font-weight:500;color:var(--mut)}
+.map{display:grid;align-items:end;height:24px}
+.tk{height:9px;border-radius:2px;background:var(--mut);opacity:.35}
+.tk.w{height:24px;background:var(--yg);opacity:1}
+.tk.o{height:24px;background:var(--off);opacity:1;animation:pl 1.4s infinite}
+.mapl{display:flex;justify-content:space-between;font-size:.75rem;color:var(--mut);margin:3px 0 9px}
+.ib{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--card2);border:1px solid var(--line)}
+.ib svg,.btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.side{display:flex;flex-direction:column;gap:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.f label{display:block;font-size:.85rem;color:var(--mut);margin-bottom:5px}
+.f{position:relative}
+.f input{width:100%;height:48px;border-radius:12px;background:var(--bg);border:1.5px solid var(--line);padding:0 42px 0 12px;font-size:1.1rem;font-weight:600}
+.f input:focus{outline:none;border-color:var(--y);box-shadow:0 0 0 3px rgba(252,193,51,.28)}
+.f i{position:absolute;right:12px;bottom:13px;font-style:normal;color:var(--mut);font-size:.85rem}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:4px;gap:4px}
+.seg button{min-height:42px;border-radius:9px;font-weight:600;font-size:.92rem;color:var(--mut)}
+.seg button[aria-pressed=true]{background:var(--y);color:var(--yink)}
+.sec{display:grid;gap:12px}
+.sec h2{display:flex;gap:8px;align-items:center}
+.sec h2.ic:before{display:none}
+.tile{width:34px;height:34px;border-radius:10px;background:var(--y);color:var(--yink);display:grid;place-items:center;flex:none}
+.tile svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sec h2:before{content:"";width:6px;height:20px;border-radius:3px;background:var(--y)}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.k{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.k span{display:block;font-size:.8rem;color:var(--mut)}
+.k b{font:700 1.9rem/1.1 var(--fh);display:block;margin-top:2px}
+.k em{font-style:normal;font-size:.85rem;font-weight:500;color:var(--mut)}
+.k.y b{color:var(--yt)}
+.cfg{white-space:nowrap}
+.k.wide{grid-column:1/-1}
+.rows{font:500 .95rem/1.5 var(--fb);color:var(--yt);margin-top:4px;word-break:break-word}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;gap:8px;align-items:center;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background-color:var(--card);border-top:3px solid var(--y)}
+.nav .mid{flex:1;text-align:center;min-width:0}
+.nav .mid b{font:700 1.35rem/1 var(--fh);display:block}
+.tag{display:inline-block;margin-top:7px;font-size:.78rem;font-weight:600;padding:2px 10px;border-radius:99px;border:1px solid}
+.tag.a{color:var(--ok);border-color:var(--ok);background: rgba(34, 197, 94, .1);}.tag.r{color:var(--spr);border-color:var(--spr);background: rgba(56, 189, 248, .1);}
+.btn{min-height:48px;min-width:48px;border-radius:12px;background:var(--card2);border:1px solid var(--line);display:inline-flex;gap:8px;align-items:center;justify-content:center;padding:0 14px;font-weight:600}
+.btn.p{background:var(--y);color:var(--yink);border-color:var(--y)}
+.btn.p:disabled{background:var(--card2);color:var(--mut);border-color:var(--line);opacity:.55;cursor:not-allowed}
+.vh{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.pills{display:flex;gap:6px;overflow-x:auto;padding:12px 0 6px;position:relative;scrollbar-width:thin;scrollbar-color:rgba(148,163,184,.45) transparent}
+.pill{flex:none;min-width:46px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--card2);font-weight:600;color:var(--mut);position:relative}
+.pill.t:after{content:"";position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:var(--off)}
+.pill[aria-current=true]{background:var(--y);color:var(--yink);border-color:var(--y)}
+.stage{background:var(--fld);border:1px solid var(--line);border-radius:14px;overflow-x:auto;margin-top:8px;scrollbar-width:thin;scrollbar-color:rgba(148,163,184,.45) transparent}
+.stage svg{display:block}
+.pills::-webkit-scrollbar,.stage::-webkit-scrollbar{height:8px}
+.pills::-webkit-scrollbar-track,.stage::-webkit-scrollbar-track{background:transparent}
+.pills::-webkit-scrollbar-thumb,.stage::-webkit-scrollbar-thumb{background:rgba(148,163,184,.45);border-radius:8px}
+.chev{fill:none;stroke:var(--yg);stroke-width:9;stroke-linecap:round;stroke-linejoin:round;opacity:var(--co3);animation:flow 1.8s ease-in-out infinite}
+@keyframes flow{0%,100%{opacity:var(--co1)}50%{opacity:var(--co2)}}
+.fld{fill:var(--fld);stroke:var(--line)}
+.leg{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:12px;font-size:.85rem;color:var(--mut)}
+.leg span:before{content:"";display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--c);margin-right:6px;vertical-align:-1px}
+.stat{font-weight:600;display:flex;align-items:center;gap:8px}
+.dot{width:11px;height:11px;border-radius:50%;background:var(--ok)}
+.dot.off{background:var(--off);animation:pl 1.4s infinite}
+@keyframes pl{50%{opacity:.3}}
+.heads{display:grid;gap:10px;margin-top:10px}
+.head{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:10px 12px 12px}
+.head header{display:flex;justify-content:space-between;margin-bottom:8px;font-weight:600}
+.head header span{color:var(--mut);font-weight:500;font-size:.85rem}
+.valves{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:4px}
+.v{height:34px;border-radius:9px;border:1px solid var(--line);background:var(--card2);display:grid;place-content:center;text-align:center;font:600 1rem/1 var(--fh);color:var(--mut)}
+.v small{font:700 .55rem var(--fb);margin-top:1px}
+.v.w{color:var(--yt);border-color:var(--yb);background:var(--ytint)}
+.v.o{color:#fff;background:var(--off);border-color:var(--off);animation:pl 1.4s infinite}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:28;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.on{opacity:1;pointer-events:auto}
+dialog{border:1px solid var(--y);border-radius:16px;background:var(--card);color:var(--ink);width:min(560px,calc(100% - 24px));padding:20px}
+dialog::backdrop{background:rgba(0,0,0,.7)}
+dialog dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:14px 0}
+dialog dt{color:var(--mut)}dialog dd{margin:0;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chips span{padding:4px 10px;border-radius:8px;background:var(--ytint);border:1px solid var(--yb);color:var(--yt);font-weight:600;font-size:.9rem}
+.note{color:var(--mut);font-size:.88rem}
+.pc{display:none}
+@media(max-width:959px){
+.side{position:fixed;left:0;right:0;bottom:0;z-index:30;max-height:88dvh;overflow:auto;background:var(--bg);border-radius:20px 20px 0 0;border-top:3px solid var(--y);padding:16px 12px calc(20px + env(safe-area-inset-bottom,0px));transform:translateY(105%);transition:transform .25s}
+.side.open{transform:none}
+}
+.sheethead{display:flex;align-items:center;gap:10px}
+.sheethead h2{flex:1;font-size:1.25rem}
+.lw{position:relative}
+.lang-menu{position:absolute;right:0;top:52px;min-width:170px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px;display:none;flex-direction:column;box-shadow:0 10px 30px rgba(0,0,0,.35);z-index:40}
+.lang-menu.show{display:flex}
+.lang-menu button{display:flex;align-items:center;gap:10px;min-height:44px;padding:0 12px;border-radius:9px;font-weight:600;text-align:left;width:100%}
+.lang-menu button:hover,.lang-menu button[aria-current="true"]{background:var(--card2);color:var(--yt)}
+.flag{display:block;width:26px;height:auto;border-radius:3px;flex:none}
+@media(min-width:960px){
+body{padding-bottom:0}
+.app{grid-template-columns:350px minmax(0,1fr);align-items:start;padding:18px;gap:18px}
+.side{position:sticky;}
+.kpis{grid-template-columns:repeat(4,1fr)}
+.k.wide{grid-column:span 4}
+.nav{position:sticky;bottom:auto;border:1px solid var(--line);border-top:3px solid var(--y);border-radius:16px}
+.only-m{display:none!important}
+.heads{grid-template-columns:repeat(2,1fr)}
+.head.one{grid-column:1/-1}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{body>*:not(dialog){display:none!important}dialog{position:static;border:0;color:#000;background:#fff;width:100%}dialog::backdrop{display:none}.np{display:none}dt{color:#444}.chips span{color:#000;border-color:#000;background:none}}
+@supports (
+(-webkit-backdrop-filter: blur(1px)) or
+(backdrop-filter: blur(1px))
+) {
+
+.nav {
+background-color: var(--gl, var(--card));
+-webkit-backdrop-filter: saturate(1.6) blur(14px);
+backdrop-filter: saturate(1.6) blur(14px);
+}
+}
+</style>
+</head>
+<body>
+<div class="top">
+  <svg class="lg lg-l" viewBox="0 0 543.2 352.9" role="img" aria-label="Alpego"><path class="lc1" d="M428.8,263c1.9-5.1,4.6-9.3,8.2-12.5,3.6-3.2,8.4-5.5,14.2-6.9,2.1-.5,4.4-.8,6.7-1.1,2.3-.3,4.6-.4,6.9-.4,2.4,0,4.9,0,7.4.3,2.5.3,4.9.7,7.2,1.3,5.7,1.3,10.4,3.6,14.1,6.8,3.6,3.2,6.3,7.4,8.1,12.5.7,2.3,1.3,4.8,1.7,7.4.4,2.6.6,5.2.6,7.8s-.2,5.5-.5,8.2c-.4,2.7-.9,5.2-1.7,7.6-1.7,5.3-4.4,9.5-8.2,12.7-3.7,3.2-8.5,5.4-14.4,6.7-2.3.5-4.7.9-7.1,1.1-2.4.2-4.9.3-7.4.3s-4.4-.1-6.7-.4c-2.2-.3-4.4-.6-6.6-1.1-5.8-1.2-10.6-3.5-14.3-6.7-3.7-3.2-6.4-7.4-8.2-12.7-.7-2.3-1.3-4.7-1.7-7.4-.4-2.7-.6-5.4-.6-8.1s.2-5.4.5-8.1c.4-2.7.9-5.1,1.7-7.3h0ZM445.6,267.9c-.5,1.8-.9,3.5-1.1,5.3-.2,1.8-.3,3.6-.3,5.3s.1,3.6.4,5.4c.2,1.8.6,3.5,1,5.2.8,3,2.1,5.6,3.9,7.8,1.8,2.2,4.4,3.8,7.7,4.9,1.2.4,2.5.7,3.9.9,1.4.2,2.7.3,4.1.3s2.7,0,4.1-.3c1.4-.2,2.6-.5,3.9-.9,3.3-1,5.9-2.7,7.7-4.9,1.9-2.2,3.2-4.8,3.9-7.8.4-1.7.8-3.4,1-5.2.3-1.8.4-3.6.4-5.4s-.1-3.5-.4-5.3c-.3-1.8-.6-3.5-1-5.2-.7-3-2-5.6-3.9-7.8-1.9-2.2-4.4-3.8-7.7-4.8-1.2-.4-2.5-.7-3.9-.9-1.4-.2-2.7-.3-4.1-.3s-2.7,0-4.1.3c-1.4.2-2.6.5-3.9.9-3.3,1-5.8,2.7-7.6,4.9-1.8,2.2-3.1,4.8-4,7.8h0Z"/> <path class="lc1" d="M235.8,242.7h-51v71.5h16.9v-24.2h34c11.8,0,21.5-9.7,21.5-21.5v-4.3c0-11.8-9.7-21.5-21.5-21.5ZM238,267.3c0,5.3-4.3,9.7-9.7,9.7h-26.6v-21.2h26.6c5.3,0,9.7,4.3,9.7,9.7v1.9Z"/> <path class="lc1" d="M146,302.1c-6.8,0-12.4-5.6-12.4-12.4v-47h-16.9v43.2c0,4.5.8,8.9,2.6,13,3.1,7,9.8,15.2,24.5,15.2h32.4v-12.1h-30.1Z"/> <path class="lc1" d="M298.9,255.7h32.9v-13h-29.8c-4.1,0-8.1.5-12.1,1.6-10,2.8-24.6,10.7-23.9,34.2,1,32.9,22.2,35.8,29,35.8h36.7v-12.1h-29s-14.8.4-17.2-16.9h46.2v-13.1h-46.4c.1-3.6,1.5-16.4,13.5-16.4Z"/> <path class="lc1" d="M376.4,255.7h40.6v-13h-44.9s-29.5,1.4-31.4,35.8c-1.9,34.3,30,35.8,30,35.8h46.4v-42.1h-40.6v13.1h24.2v16.9h-26.1s-16.4-.2-16.4-23.8,18.4-22.6,18.4-22.6Z"/> <path class="lc1" d="M85.3,242.7h-16.9l-29.5,71.5h16.4l7.2-16.4h29.5l6.3,16.4h18.4l-31.4-71.5ZM77.3,260.1l9.5,24.5h-18.9l9.5-24.5Z"/> </g> <g> <path class="lc0" d="M230.7,49.1c-4.7-.5-9.9-.1-15.6,1.9-8.1,2.9-14.8,8.8-19.3,16.1l-74.8,120s-13.7,23.4-37.8,21.2l-7.1,17.3h82.7s30.3.9,44.5-21.3c15-23.2,67.6-109.2,67.6-109.2l-14.5-27.8c-5.1-9.9-14.7-16.9-25.7-18.2Z"/> <path class="lc1" d="M480.4,208.3h0c-.7,0-1.4,0-2.2,0-15.5,0-28.9-8.6-35.8-21.3h0s-63.2-118.5-63.2-118.5c-5.5-10.1-12.1-16.8-18.4-21.2-8.2-5.8-18.1-8.8-28.1-8.8h-98.4c13.5,2.3,24.1,8.7,31.9,23.7l17.3,33.3h0c20.4,37.9,49,91.1,58,107.3,12.2,23.9,36.7,22.7,36.7,22.7h109.8l-7.6-17.3Z"/></svg><svg class="lg lg-d" viewBox="0 0 543.2 352.8" role="img" aria-label="Alpego"><g> <path class="lw0" d="M428.8,263c1.9-5.1,4.6-9.3,8.2-12.5,3.6-3.2,8.4-5.5,14.2-6.9,2.1-.5,4.4-.8,6.7-1.1,2.3-.3,4.6-.4,6.9-.4,2.4,0,4.9,0,7.4.3,2.5.3,4.9.7,7.2,1.3,5.7,1.3,10.4,3.6,14.1,6.8,3.6,3.2,6.3,7.4,8.1,12.5.7,2.3,1.3,4.8,1.7,7.4.4,2.6.6,5.2.6,7.8s-.2,5.5-.5,8.2c-.4,2.7-.9,5.2-1.7,7.6-1.7,5.3-4.4,9.5-8.2,12.7-3.7,3.2-8.5,5.4-14.4,6.7-2.3.5-4.7.9-7.1,1.1-2.4.2-4.9.3-7.4.3s-4.4-.1-6.7-.4c-2.2-.3-4.4-.6-6.6-1.1-5.8-1.2-10.6-3.5-14.3-6.7-3.7-3.2-6.4-7.4-8.2-12.7-.7-2.3-1.3-4.7-1.7-7.4-.4-2.7-.6-5.4-.6-8.1s.2-5.4.5-8.1c.4-2.7.9-5.1,1.7-7.3h0ZM445.6,267.9c-.5,1.8-.9,3.5-1.1,5.3-.2,1.8-.3,3.6-.3,5.3s.1,3.6.4,5.4c.2,1.8.6,3.5,1,5.2.8,3,2.1,5.6,3.9,7.8,1.8,2.2,4.4,3.8,7.7,4.9,1.2.4,2.5.7,3.9.9,1.4.2,2.7.3,4.1.3s2.7,0,4.1-.3c1.4-.2,2.6-.5,3.9-.9,3.3-1,5.9-2.7,7.7-4.9,1.9-2.2,3.2-4.8,3.9-7.8.4-1.7.8-3.4,1-5.2.3-1.8.4-3.6.4-5.4s-.1-3.5-.4-5.3c-.3-1.8-.6-3.5-1-5.2-.7-3-2-5.6-3.9-7.8-1.9-2.2-4.4-3.8-7.7-4.8-1.2-.4-2.5-.7-3.9-.9-1.4-.2-2.7-.3-4.1-.3s-2.7,0-4.1.3c-1.4.2-2.6.5-3.9.9-3.3,1-5.8,2.7-7.6,4.9-1.8,2.2-3.1,4.8-4,7.8h0Z"/> <path class="lw0" d="M235.8,242.7h-51v71.5h16.9v-24.2h34c11.8,0,21.5-9.7,21.5-21.5v-4.3c0-11.8-9.7-21.5-21.5-21.5ZM238,267.3c0,5.3-4.3,9.7-9.7,9.7h-26.6v-21.2h26.6c5.3,0,9.7,4.3,9.7,9.7v1.9Z"/> <path class="lw0" d="M146,302.1c-6.8,0-12.4-5.6-12.4-12.4v-47h-16.9v43.2c0,4.5.8,8.9,2.6,13,3.1,7,9.8,15.2,24.5,15.2h32.4v-12.1h-30.1Z"/> <path class="lw0" d="M298.9,255.7h32.9v-13h-29.8c-4.1,0-8.1.5-12.1,1.6-10,2.8-24.6,10.7-23.9,34.2,1,32.9,22.2,35.8,29,35.8h36.7v-12.1h-29s-14.8.4-17.2-16.9h46.2v-13.1h-46.4c.1-3.6,1.5-16.4,13.5-16.4Z"/> <path class="lw0" d="M376.4,255.7h40.6v-13h-44.9s-29.5,1.4-31.4,35.8c-1.9,34.3,30,35.8,30,35.8h46.4v-42.1h-40.6v13.1h24.2v16.9h-26.1s-16.4-.2-16.4-23.8,18.4-22.6,18.4-22.6Z"/> <path class="lw0" d="M85.3,242.7h-16.9l-29.5,71.5h16.4l7.2-16.4h29.5l6.3,16.4h18.4l-31.4-71.5ZM77.3,260.1l9.5,24.5h-18.9l9.5-24.5Z"/> </g> <path class="lw0" d="M230.7,49.1c-4.7-.5-9.9-.1-15.6,1.9-8.1,2.9-14.8,8.8-19.3,16.1l-74.8,120s-13.7,23.4-37.8,21.2l-7.1,17.3h82.7s30.3.9,44.5-21.3c15-23.2,67.6-109.2,67.6-109.2l-14.5-27.8c-5.1-9.9-14.7-16.9-25.7-18.2Z"/> <path class="lw0" d="M480.4,208.3h0c-.7,0-1.4,0-2.2,0-15.5,0-28.9-8.6-35.8-21.3h0s-63.2-118.5-63.2-118.5c-5.5-10.1-12.1-16.8-18.4-21.2-8.2-5.8-18.1-8.8-28.1-8.8h-98.4c13.5,2.3,24.1,8.7,31.9,23.7l17.3,33.3h0c20.4,37.9,49,91.1,58,107.3,12.2,23.9,36.7,22.7,36.7,22.7h109.8l-7.6-17.3Z"/></svg>
+  <div class="ttl"><h1>Tramline</h1><small data-i18n="subtitle">Configuratore di tracciatura</small></div>
+  <div class="sp"></div>
+  <div class="lw">
+    <button class="ib" id="bLang" aria-haspopup="true"><span id="currentLang"></span></button>
+    <div class="lang-menu" id="langMenu"></div>
+  </div>
+  <button class="ib" id="bTheme"></button>
+  <button class="ib" id="bPrint" data-i18n-aria="openCabin" aria-label="Apri scheda cabina"><svg viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H4v-7h16v7h-2M7 14h10v7H7z"/></svg></button>
+</div>
+
+<div class="app">
+<aside class="side" id="side" data-i18n-aria="params" aria-label="Parametri">
+  <div class="sheethead"><h2 data-i18n="params">Parametri</h2><button class="ib" id="bReset" data-i18n-aria="resetAria" aria-label="Ripristina valori"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg></button><button class="btn p only-m" id="bClose" data-i18n="apply">Applica</button></div>
+  <div class="card sec">
+    <h2 class="ic"><span class="tile"><svg viewBox="0 0 24 24"><path d="M12 21v-9M12 12c0-4 3-6 7-6 0 4-3 6-7 6zM12 15c0-3-2-5-6-5 0 3 2 5 6 5zM4 21h16"/></svg></span><span data-i18n="seeder">Seminatrice</span></h2>
+    <div class="grid2">
+      <div class="f"><label for="seederW" data-i18n="width">Larghezza</label><input id="seederW" data-k="seederW" type="number" inputmode="decimal" step="0.1" min="1" max="12"><i>m</i></div>
+      <div class="f"><label for="rows" data-i18n="rowsTot">File totali</label><input id="rows" data-k="rows" type="number" inputmode="numeric" step="1" min="4" max="96"></div>
+    </div>
+    <div><div class="note" style="margin-bottom:5px" data-i18n="heads">Funghi di distribuzione</div><div class="seg" data-s="heads"><button data-v="1" data-i18n="head1">1 fungo</button><button data-v="2" data-i18n="head2">2 funghi</button></div></div>
+    <div><div class="note" style="margin-bottom:5px" data-i18n="startFrom">Si parte da</div><div class="seg" data-s="startSide"><button data-v="left" data-i18n="left">Sinistra</button><button data-v="right" data-i18n="right">Destra</button></div></div>
+    <div><div class="note" style="margin-bottom:5px" data-i18n="halfLbl">Mezza macchina (prima e ultima passata)</div><div class="seg" data-s="half"><button data-v="false" data-i18n="no">No</button><button data-v="true" data-i18n="yes">Sì</button></div></div>
+  </div>
+  <div class="card sec">
+    <h2 class="ic"><span class="tile"><svg viewBox="0 0 24 24"><circle cx="6" cy="16" r="4"/><circle cx="18" cy="18" r="2"/><path d="M10 16h6M9.5 12.5L8 8H4v4M9.5 12.5H19a1 1 0 0 1 1 1V16M5 8V4"/></svg></span><span data-i18n="sprayerSec">Diserbo e trattore</span></h2>
+    <div class="grid2">
+      <div class="f"><label for="sprayerW" data-i18n="boom">Barra</label><input id="sprayerW" data-k="sprayerW" type="number" inputmode="decimal" step="0.5" min="3" max="50"><i>m</i></div>
+      <div class="f"><label for="trackW" data-i18n="track">Carreggiata</label><input id="trackW" data-k="trackW" type="number" inputmode="decimal" step="0.05" min="1" max="3.5"><i>m</i></div>
+    </div>
+    <div class="grid2">
+      <div class="f"><label for="tireW" data-i18n="tire">Pneumatico</label><input id="tireW" data-k="tireW" type="number" inputmode="numeric" step="5" min="150" max="900"><i>mm</i></div>
+      <div class="f"><label for="tol" data-i18n="margin">Margine ruota</label><input id="tol" data-k="tol" type="number" inputmode="numeric" step="5" min="0" max="300"><i>mm</i></div>
+    </div>
+    <p class="note" data-i18n="marginNote" style="margin:-4px 0 0;font-size:.8rem">Margine ruota: fascia di sicurezza aggiunta su entrambi i lati del pneumatico. Più è alto, più file vengono chiuse; a 0 conta solo l'impronta reale.</p>
+  </div>
+  <p class="note" data-i18n="valveNote" style="margin:0 4px">Le valvole si montano sulle uscite delle teste che coincidono con le impronte delle ruote. Nelle passate di tracciatura la centralina chiude il seme su quelle file.</p>
+</aside>
+
+<main>
+  <div class="nav" id="nav">
+    <button class="btn only-m" id="bParams" data-i18n-aria="openParams" aria-label="Apri parametri"><svg viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0M14 4v4M8 10v4M16 16v4"/></svg></button>
+    <button class="btn p" id="bPrev" data-i18n-aria="prevAria" aria-label="Passata precedente"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="mid"><b id="pTitle"></b><span class="tag" id="pTag"></span></div>
+    <button class="btn p" id="bNext" data-i18n-aria="nextAria" aria-label="Passata successiva"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+
+  <section class="card sum" data-i18n-aria="summary" aria-label="Riepilogo">
+    <div class="hero">
+      <div><span class="lbl" data-i18n="fullCycle">Ciclo completo</span><div class="hn"><b id="kRh"></b><em data-i18n="passes">passate</em></div></div>
+      <span class="cfg" id="kSy"></span>
+    </div>
+    <div class="mini">
+      <div><span data-i18n="interrow">Interfila</span><b id="kIr"></b></div>
+      <div><span data-i18n="tlPasses">Passate tramline</span><b id="kTl"></b></div>
+      <div><span data-i18n="valves">Valvole</span><b id="kVc"></b></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="vh">
+      <h2 id="vTitle">Passata</h2>
+      <div class="seg" data-s="view" style="width:100%;max-width:340px"><button data-v="single" data-i18n="singleView">Singola passata</button><button data-v="field" data-i18n="fieldView">Campo intero</button></div>
+    </div>
+    <div class="pills" id="pills" role="group" data-i18n-aria="seq" aria-label="Sequenza passate"></div>
+    <div class="stage" id="stage"><svg id="svg" role="img" data-i18n-aria="graphic" aria-label="Rappresentazione grafica"></svg></div>
+    <div class="leg"><span style="--c:var(--ok)" data-i18n="legSow">Semina attiva</span><span style="--c:var(--off)" data-i18n="legClosed">Fila chiusa</span><span style="--c:var(--tire)" data-i18n="legTire">Impronta ruota</span><span id="legMg" style="--c:#4a2c11;display:none" data-i18n="margin">Margine ruota</span><span style="--c:var(--yg)" data-i18n="legSeeder">Barra seminatrice</span><span style="--c:var(--spr)" data-i18n="legSprayer">Barra diserbo</span></div>
+    <p class="note" id="halfNote" hidden style="margin:8px 0 0;font-size:.82rem"></p>
+  </section>
+
+  <section class="card">
+    <div class="vh"><h2 data-i18n="solenoids">Elettrovalvole</h2><div class="stat" id="vStat"></div></div>
+    <p class="note" style="margin:6px 0 0"><span data-i18n="valvedRows">File con valvola:</span> <b id="kVl" style="color:var(--yt)"></b></p>
+    <div class="heads" id="heads"></div>
+  </section>
+</main>
+</div>
+<div class="scrim" id="scrim"></div>
+
+<dialog id="dlg">
+  <div style="display:flex;justify-content:space-between;align-items:start;gap:10px">
+    <div><h2 style="font-size:1.5rem" data-i18n="cabin">Scheda cabina</h2><div class="note">Alpego Tramline · <span id="pDate"></span></div></div>
+    <button class="ib np" id="dClose" data-i18n-aria="close" aria-label="Chiudi"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <dl id="pDl"></dl>
+  <div class="k y" style="margin-bottom:12px"><span data-i18n="cycleOp">Ciclo operativo</span><b id="pRh"></b></div>
+  <div class="note" style="margin-bottom:6px" data-i18n="valvedRowsT">File con valvola</div><div class="chips" id="pVl"></div>
+  <p class="note" data-i18n="cabinNote">Nelle passate di tracciatura la centralina chiude il seme sulle file con valvola, per lasciar passare il trattore con la barra.</p>
+  <div style="display:flex;justify-content:flex-end;gap:8px" class="np"><button class="btn" id="dClose2" data-i18n="close">Chiudi</button><button class="btn p" onclick="print()" data-i18n="print">Stampa</button></div>
+</dialog>
+
+<script>
+
+// ======= LINGUE =======
+// Tutti i testi dell'interfaccia sono qui: per correggere o aggiungere una frase basta modificare la voce nella lingua giusta.
+// {nome} = valore inserito dal programma.
+const translations={
+it:{langName:'Italiano',locale:'it-IT',
+  subtitle:'Configuratore di tracciatura',openCabin:'Apri scheda cabina',params:'Parametri',resetAria:'Ripristina valori',apply:'Applica',
+  seeder:'Seminatrice',width:'Larghezza',rowsTot:'File totali',heads:'Funghi di distribuzione',head1:'1 fungo',head2:'2 funghi',startFrom:'Si parte da',left:'Sinistra',right:'Destra',
+  halfLbl:'Mezza macchina (prima e ultima passata)',no:'No',yes:'Sì',
+  sprayerSec:'Diserbo e trattore',boom:'Barra',track:'Carreggiata',tire:'Pneumatico',margin:'Margine ruota',
+  marginNote:"Margine ruota: fascia di sicurezza aggiunta su entrambi i lati del pneumatico. Più è alto, più file vengono chiuse; a 0 conta solo l'impronta reale.",
+  valveNote:'Le valvole si montano sulle uscite delle teste che coincidono con le impronte delle ruote. Nelle passate di tracciatura la centralina chiude il seme su quelle file.',
+  openParams:'Apri parametri',prevAria:'Passata precedente',nextAria:'Passata successiva',summary:'Riepilogo',
+  fullCycle:'Ciclo completo',passes:'passate',interrow:'Interfila',tlPasses:'Passate tramline',valves:'Valvole',rowsUnit:'file',ofN:'su',
+  singleView:'Singola passata',fieldView:'Campo intero',seq:'Sequenza passate',graphic:'Rappresentazione grafica',
+  legSow:'Semina attiva',legClosed:'Fila chiusa',legTire:'Impronta ruota',legSeeder:'Barra seminatrice',legSprayer:'Barra diserbo',
+  solenoids:'Elettrovalvole',valvedRows:'File con valvola:',
+  cabin:'Scheda cabina',close:'Chiudi',print:'Stampa',cycleOp:'Ciclo operativo',valvedRowsT:'File con valvola',
+  cabinNote:'Nelle passate di tracciatura la centralina chiude il seme sulle file con valvola, per lasciar passare il trattore con la barra.',
+  sym:'Simmetrica {r}:1',asym:'Asimmetrica {r}:1',passOf:'Passata {c} di {n}',pass:'Passata {c}',
+  halfNote:'<b style="color:var(--yt)">Mezza macchina</b> · campo largo {Nc} macchine, {N} passate. <b>P1</b> (\u00bd) semina solo mezza macchina: la metà spenta viene completata al ritorno da <b>P2</b>, che parte da lì e sfalsa tutte le passate successive. <b>P{N}</b> (\u00bd) chiude il campo a metà.',
+  fwd:'Andata',back:'Ritorno',sx:'Sx',dx:'Dx',halfShort:'Mezza macchina',tlActive:'Tramline attivo',closedN:'{n} file chiuse ({r})',normal:'Semina normale · tutte le file aperte',
+  headOne:'Fungo unico',head1l:'Fungo 1 · sinistra',head2r:'Fungo 2 · destra',rowsRange:'File {a}–{b}',rowN:'Fila {r}',headsShort:'Funghi',perSide:'{v} mm per lato',
+  toLight:'Passa al tema chiaro',toDark:'Passa al tema scuro'},
+en:{langName:'English',locale:'en-GB',
+  subtitle:'Tramline configurator',openCabin:'Open cab sheet',params:'Settings',resetAria:'Reset values',apply:'Apply',
+  seeder:'Seeder',width:'Width',rowsTot:'Total rows',heads:'Distributor heads',head1:'1 head',head2:'2 heads',startFrom:'Start from',left:'Left',right:'Right',
+  halfLbl:'Half machine (first and last pass)',no:'No',yes:'Yes',
+  sprayerSec:'Sprayer and tractor',boom:'Boom',track:'Track width',tire:'Tyre',margin:'Wheel margin',
+  marginNote:'Wheel margin: safety band added on both sides of the tyre. The higher it is, the more rows are closed; at 0 only the real tyre footprint counts.',
+  valveNote:'Valves are fitted on the head outlets that match the wheel tracks. During tramline passes the control unit shuts off the seed on those rows.',
+  openParams:'Open settings',prevAria:'Previous pass',nextAria:'Next pass',summary:'Summary',
+  fullCycle:'Full cycle',passes:'passes',interrow:'Row spacing',tlPasses:'Tramline passes',valves:'Valves',rowsUnit:'rows',ofN:'of',
+  singleView:'Single pass',fieldView:'Whole field',seq:'Pass sequence',graphic:'Graphic view',
+  legSow:'Sowing',legClosed:'Closed row',legTire:'Tyre footprint',legSeeder:'Seeder bar',legSprayer:'Sprayer boom',
+  solenoids:'Solenoid valves',valvedRows:'Rows with valve:',
+  cabin:'Cab sheet',close:'Close',print:'Print',cycleOp:'Operating cycle',valvedRowsT:'Rows with valve',
+  cabinNote:'During tramline passes the control unit shuts off the seed on the rows fitted with a valve, so the tractor can drive through with the sprayer boom.',
+  sym:'Symmetric {r}:1',asym:'Asymmetric {r}:1',passOf:'Pass {c} of {n}',pass:'Pass {c}',
+  halfNote:'<b style="color:var(--yt)">Half machine</b> · field {Nc} machines wide, {N} passes. <b>P1</b> (\u00bd) sows with only half the machine: the switched-off half is completed on the way back by <b>P2</b>, which starts from there and offsets all following passes. <b>P{N}</b> (\u00bd) closes the field with half a machine.',
+  fwd:'Outward',back:'Return',sx:'L',dx:'R',halfShort:'Half machine',tlActive:'Tramline active',closedN:'{n} rows closed ({r})',normal:'Normal sowing · all rows open',
+  headOne:'Single head',head1l:'Head 1 · left',head2r:'Head 2 · right',rowsRange:'Rows {a}–{b}',rowN:'Row {r}',headsShort:'Heads',perSide:'{v} mm per side',
+  toLight:'Switch to light theme',toDark:'Switch to dark theme'},
+fr:{langName:'Français',locale:'fr-FR',
+  subtitle:'Configurateur de jalonnage',openCabin:'Ouvrir la fiche cabine',params:'Paramètres',resetAria:'Réinitialiser les valeurs',apply:'Appliquer',
+  seeder:'Semoir',width:'Largeur',rowsTot:'Rangs au total',heads:'Têtes de distribution',head1:'1 tête',head2:'2 têtes',startFrom:'Départ à',left:'Gauche',right:'Droite',
+  halfLbl:'Demi-machine (premier et dernier passage)',no:'Non',yes:'Oui',
+  sprayerSec:'Pulvérisateur et tracteur',boom:'Rampe',track:'Voie',tire:'Pneu',margin:'Marge de roue',
+  marginNote:"Marge de roue : bande de sécurité ajoutée de chaque côté du pneu. Plus elle est grande, plus de rangs sont fermés ; à 0, seule l'empreinte réelle compte.",
+  valveNote:'Les vannes se montent sur les sorties des têtes qui correspondent aux traces des roues. Lors des passages de jalonnage, le boîtier de commande coupe le semis sur ces rangs.',
+  openParams:'Ouvrir les paramètres',prevAria:'Passage précédent',nextAria:'Passage suivant',summary:'Résumé',
+  fullCycle:'Cycle complet',passes:'passages',interrow:'Écartement des rangs',tlPasses:'Passages de jalonnage',valves:'Vannes',rowsUnit:'rangs',ofN:'sur',
+  singleView:'Un passage',fieldView:'Champ entier',seq:'Séquence des passages',graphic:'Vue graphique',
+  legSow:'Semis actif',legClosed:'Rang fermé',legTire:'Empreinte du pneu',legSeeder:'Barre du semoir',legSprayer:'Rampe de pulvérisation',
+  solenoids:'Électrovannes',valvedRows:'Rangs avec vanne :',
+  cabin:'Fiche cabine',close:'Fermer',print:'Imprimer',cycleOp:'Cycle opérationnel',valvedRowsT:'Rangs avec vanne',
+  cabinNote:'Lors des passages de jalonnage, le boîtier de commande coupe le semis sur les rangs équipés de vanne, pour laisser passer le tracteur avec la rampe.',
+  sym:'Symétrique {r}:1',asym:'Asymétrique {r}:1',passOf:'Passage {c} sur {n}',pass:'Passage {c}',
+  halfNote:'<b style="color:var(--yt)">Demi-machine</b> · champ de {Nc} machines de large, {N} passages. <b>P1</b> (\u00bd) ne sème qu\'avec la moitié de la machine : la moitié coupée est complétée au retour par <b>P2</b>, qui part de là et décale tous les passages suivants. <b>P{N}</b> (\u00bd) termine le champ avec une demi-machine.',
+  fwd:'Aller',back:'Retour',sx:'G',dx:'D',halfShort:'Demi-machine',tlActive:'Jalonnage actif',closedN:'{n} rangs fermés ({r})',normal:'Semis normal · tous les rangs ouverts',
+  headOne:'Tête unique',head1l:'Tête 1 · gauche',head2r:'Tête 2 · droite',rowsRange:'Rangs {a}–{b}',rowN:'Rang {r}',headsShort:'Têtes',perSide:'{v} mm par côté',
+  toLight:'Passer au thème clair',toDark:'Passer au thème sombre'},
+de:{langName:'Deutsch',locale:'de-DE',
+  subtitle:'Fahrgassen-Konfigurator',openCabin:'Kabinenblatt öffnen',params:'Parameter',resetAria:'Werte zurücksetzen',apply:'Übernehmen',
+  seeder:'Sämaschine',width:'Breite',rowsTot:'Reihen gesamt',heads:'Verteilerköpfe',head1:'1 Kopf',head2:'2 Köpfe',startFrom:'Start von',left:'Links',right:'Rechts',
+  halfLbl:'Halbe Maschine (erste und letzte Überfahrt)',no:'Nein',yes:'Ja',
+  sprayerSec:'Spritze und Traktor',boom:'Gestänge',track:'Spurweite',tire:'Reifen',margin:'Radspielraum',
+  marginNote:'Radspielraum: Sicherheitsstreifen, der beidseitig zur Reifenbreite addiert wird. Je höher, desto mehr Reihen werden geschlossen; bei 0 zählt nur die tatsächliche Reifenspur.',
+  valveNote:'Die Ventile werden an den Kopfausgängen montiert, die mit den Radspuren zusammenfallen. Bei den Fahrgassen-Überfahrten schaltet das Steuergerät die Aussaat auf diesen Reihen ab.',
+  openParams:'Parameter öffnen',prevAria:'Vorherige Überfahrt',nextAria:'Nächste Überfahrt',summary:'Übersicht',
+  fullCycle:'Voller Zyklus',passes:'Überfahrten',interrow:'Reihenabstand',tlPasses:'Fahrgassen-Überfahrten',valves:'Ventile',rowsUnit:'Reihen',ofN:'von',
+  singleView:'Einzelne Überfahrt',fieldView:'Ganzes Feld',seq:'Reihenfolge der Überfahrten',graphic:'Grafische Darstellung',
+  legSow:'Aussaat aktiv',legClosed:'Geschlossene Reihe',legTire:'Reifenspur',legSeeder:'Sämaschinenbalken',legSprayer:'Spritzgestänge',
+  solenoids:'Magnetventile',valvedRows:'Reihen mit Ventil:',
+  cabin:'Kabinenblatt',close:'Schließen',print:'Drucken',cycleOp:'Arbeitszyklus',valvedRowsT:'Reihen mit Ventil',
+  cabinNote:'Bei den Fahrgassen-Überfahrten schaltet das Steuergerät die Aussaat auf den Reihen mit Ventil ab, damit der Traktor mit dem Gestänge hindurchfahren kann.',
+  sym:'Symmetrisch {r}:1',asym:'Asymmetrisch {r}:1',passOf:'Überfahrt {c} von {n}',pass:'Überfahrt {c}',
+  halfNote:'<b style="color:var(--yt)">Halbe Maschine</b> · Feld {Nc} Maschinen breit, {N} Überfahrten. <b>P1</b> (\u00bd) sät nur mit der halben Maschine: die abgeschaltete Hälfte wird auf dem Rückweg von <b>P2</b> ergänzt, die von dort startet und alle folgenden Überfahrten versetzt. <b>P{N}</b> (\u00bd) schließt das Feld mit einer halben Maschine ab.',
+  fwd:'Hinfahrt',back:'Rückfahrt',sx:'L',dx:'R',halfShort:'Halbe Maschine',tlActive:'Fahrgasse aktiv',closedN:'{n} Reihen geschlossen ({r})',normal:'Normale Aussaat · alle Reihen offen',
+  headOne:'Einzelner Kopf',head1l:'Kopf 1 · links',head2r:'Kopf 2 · rechts',rowsRange:'Reihen {a}–{b}',rowN:'Reihe {r}',headsShort:'Köpfe',perSide:'{v} mm je Seite',
+  toLight:'Zum hellen Design wechseln',toDark:'Zum dunklen Design wechseln'},
+es:{langName:'Español',locale:'es-ES',
+  subtitle:'Configurador de calles de tratamiento',openCabin:'Abrir ficha de cabina',params:'Parámetros',resetAria:'Restablecer valores',apply:'Aplicar',
+  seeder:'Sembradora',width:'Anchura',rowsTot:'Hileras totales',heads:'Cabezales de distribución',head1:'1 cabezal',head2:'2 cabezales',startFrom:'Se empieza por',left:'Izquierda',right:'Derecha',
+  halfLbl:'Media máquina (primera y última pasada)',no:'No',yes:'Sí',
+  sprayerSec:'Pulverizador y tractor',boom:'Barra',track:'Ancho de vía',tire:'Neumático',margin:'Margen de rueda',
+  marginNote:'Margen de rueda: franja de seguridad añadida a ambos lados del neumático. Cuanto mayor es, más hileras se cierran; con 0 solo cuenta la huella real.',
+  valveNote:'Las válvulas se montan en las salidas de los cabezales que coinciden con las huellas de las ruedas. En las pasadas de calle de tratamiento la centralita cierra la siembra en esas hileras.',
+  openParams:'Abrir parámetros',prevAria:'Pasada anterior',nextAria:'Pasada siguiente',summary:'Resumen',
+  fullCycle:'Ciclo completo',passes:'pasadas',interrow:'Distancia entre hileras',tlPasses:'Pasadas con calle',valves:'Válvulas',rowsUnit:'hileras',ofN:'de',
+  singleView:'Una pasada',fieldView:'Campo entero',seq:'Secuencia de pasadas',graphic:'Vista gráfica',
+  legSow:'Siembra activa',legClosed:'Hilera cerrada',legTire:'Huella del neumático',legSeeder:'Barra de la sembradora',legSprayer:'Barra pulverizadora',
+  solenoids:'Electroválvulas',valvedRows:'Hileras con válvula:',
+  cabin:'Ficha de cabina',close:'Cerrar',print:'Imprimir',cycleOp:'Ciclo operativo',valvedRowsT:'Hileras con válvula',
+  cabinNote:'En las pasadas de calle de tratamiento la centralita cierra la siembra en las hileras con válvula, para dejar pasar el tractor con la barra.',
+  sym:'Simétrica {r}:1',asym:'Asimétrica {r}:1',passOf:'Pasada {c} de {n}',pass:'Pasada {c}',
+  halfNote:'<b style="color:var(--yt)">Media máquina</b> · campo de {Nc} máquinas de ancho, {N} pasadas. <b>P1</b> (\u00bd) siembra solo con media máquina: la mitad apagada se completa a la vuelta con <b>P2</b>, que parte de ahí y desplaza todas las pasadas siguientes. <b>P{N}</b> (\u00bd) cierra el campo con media máquina.',
+  fwd:'Ida',back:'Vuelta',sx:'Izq',dx:'Der',halfShort:'Media máquina',tlActive:'Calle de tratamiento activa',closedN:'{n} hileras cerradas ({r})',normal:'Siembra normal · todas las hileras abiertas',
+  headOne:'Cabezal único',head1l:'Cabezal 1 · izquierda',head2r:'Cabezal 2 · derecha',rowsRange:'Hileras {a}–{b}',rowN:'Hilera {r}',headsShort:'Cabezales',perSide:'{v} mm por lado',
+  toLight:'Cambiar al tema claro',toDark:'Cambiar al tema oscuro'}
+};
+// Bandiere: file SVG nella cartella img/ (it.svg, en.svg, fr.svg, de.svg, es.svg). Basta sostituire i file.
+// Se un file manca, viene usata la versione incorporata qui sotto.
+const FLAG_DIR='img/';
+const FLAG_BACKUP={
+it:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="1" height="2" fill="#009246"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ce2b37"/></svg>',
+en:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="7"/><path d="M0 0L60 40M60 0L0 40" stroke="#c8102e" stroke-width="3"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="12"/><path d="M30 0V40M0 20H60" stroke="#c8102e" stroke-width="7"/></svg>',
+fr:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="1" height="2" fill="#0055a4"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ef4135"/></svg>',
+de:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#ffce00"/><rect width="3" height="1.34" fill="#dd0000"/><rect width="3" height=".67" fill="#000"/></svg>',
+es:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#aa151b"/><rect y=".5" width="3" height="1" fill="#f1bf00"/></svg>'
+};
+const flagImg=l=>`<img class="flag" src="${FLAG_DIR}${l}.svg" alt="" onerror="this.onerror=null;this.src='data:image/svg+xml,'+encodeURIComponent(FLAG_BACKUP['${l}'])">`;
+let lang='it'; try{const l=localStorage.getItem('tl-lang'); if(l&&translations[l])lang=l}catch(e){}
+const T=()=>translations[lang];
+const f=(s,o)=>s.replace(/\{(\w+)\}/g,(m,k)=>o[k]);
+
+const D={seederW:6,rows:48,heads:2,startSide:'left',sprayerW:18,trackW:2,tireW:250,half:false,tol:0};
+const HALF_VALVES=false; // true = conta come valvole anche le file spente dalla mezza macchina
+const MIN={seederW:1,rows:4,sprayerW:2,trackW:.8,tireW:100,tol:0};
+const S={...D,cur:1,view:'single',N:62,Nc:62,off:3,valved:[],map:{}};
+const $=id=>document.getElementById(id);
+const gcd=(a,b)=>b?gcd(b,a%b):a, lcm=(a,b)=>a*b/gcd(a,b);
+const ranges=a=>{if(!a.length)return'–';const o=[];let s=a[0],e=a[0];for(let i=1;i<a.length;i++){if(a[i]===e+1)e=a[i];else{o.push(s===e?s:s+'–'+e);s=e=a[i]}}o.push(s===e?s:s+'–'+e);return o.join(', ')};
+const dirText=(d,l)=>d==='ANDATA'?`${T().fwd} ↑ ${l?T().sx+'→'+T().dx:T().dx+'→'+T().sx}`:`${T().back} ↓ ${l?T().dx+'→'+T().sx:T().sx+'→'+T().dx}`;
+
+function compute(){
+  const L=S.startSide==='left', ir=S.seederW/S.rows;
+  $('kIr').innerHTML=(ir*100).toFixed(2)+' <em>cm</em>';
+  const ratio=S.sprayerW/S.seederW, rr=Math.round(ratio);
+  const sym=Math.abs(ratio-rr)<.05&&rr%2;
+  $('kSy').textContent=Math.abs(ratio-rr)<.05?f(rr%2?T().sym:T().asym,{r:rr}):f(T().asym,{r:ratio.toFixed(2)});
+  $('kSy').className='cfg '+(sym?'ok':'wn');
+  const sm=Math.round(S.seederW*1000), pm=Math.round(S.sprayerW*1000);
+  let N=Math.round(lcm(sm,pm)/sm); if(N%2)N*=2; N=Math.min(156,Math.max(4,N)); S.Nc=N;
+  const H=S.half, Np=H?N+1:N; S.N=Np;
+  $('kRh').textContent=N;
+  const tire=(S.tireW+2*S.tol)/1000, tr=S.trackW, off=0; // offset fisso a 0; il margine ruota allarga l'impronta su entrambi i lati
+  const map={},vs=new Set();
+  for(let p=1;p<=Np;p++)map[p]={shut:[],wheels:[],direction:p%2?'ANDATA':'RITORNO'};
+  const tw=N*S.seederW, maxK=Math.ceil((tw+S.sprayerW)/S.sprayerW)+2;
+  for(let k=1;k<=maxK;k++){
+    const cx=L?(k-.5)*S.sprayerW+off:tw-((k-.5)*S.sprayerW+off);
+    [['L',cx-tr/2],['R',cx+tr/2]].forEach(([side,fx])=>{
+      if(fx<-tire||fx>tw+tire)return;
+      if(H){ // MEZZA MACCHINA: P1 a filo bordo di partenza (meta' interna spenta), P2..PN sfalsate di mezza macchina, ultima passata a cavallo del bordo opposto
+        const sw=S.seederW, u=L?fx:tw-fx, a0=u-tire/2, b0=u+tire/2;
+        for(let p=1;p<=Np;p++){
+          let mu0,mu1,au0,au1;
+          if(p===1){mu0=0;mu1=sw;au0=0;au1=sw/2}
+          else if(p<=N){mu0=(p-1.5)*sw;mu1=(p-.5)*sw;au0=mu0;au1=mu1}
+          else{mu0=(N-.5)*sw;mu1=(N+.5)*sw;au0=mu0;au1=N*sw}
+          if(Math.min(b0,au1)-Math.max(a0,au0)<=1e-9)continue;
+          const lx=fx-(L?mu0:tw-mu1), tl=lx-tire/2, trr=lx+tire/2, and=map[p].direction==='ANDATA';
+          map[p].wheels.push({k,side,fx,lx,relX:lx/sw,cx});
+          for(let r=1;r<=S.rows;r++){
+            const rl=and?(r-1)*ir:(S.rows-r)*ir, rrr=and?r*ir:(S.rows-r+1)*ir;
+            if(Math.min(trr,rrr)-Math.max(tl,rl)>Math.min(.02,ir*.18)){
+              if(!map[p].shut.includes(r))map[p].shut.push(r); vs.add(r); map[p].tl=true;
+            }
+          }
+        }
+        return;
+      }
+      let a=Math.floor((fx-tire/2)/S.seederW), b=Math.floor((fx+tire/2)/S.seederW);
+      a=Math.max(0,Math.min(N-1,a)); b=Math.max(0,Math.min(N-1,b));
+      for(let col=a;col<=b;col++){
+        const tp=L?col+1:N-col; if(tp<1||tp>N)continue;
+        const lx=fx-col*S.seederW;
+        map[tp].wheels.push({k,side,fx,lx,relX:lx/S.seederW,cx});
+        const tl=lx-tire/2, trr=lx+tire/2, and=map[tp].direction==='ANDATA';
+        for(let r=1;r<=S.rows;r++){
+          const rl=and?(r-1)*ir:(S.rows-r)*ir, rrr=and?r*ir:(S.rows-r+1)*ir;
+          if(Math.min(trr,rrr)-Math.max(tl,rl)>Math.min(.02,ir*.18)){
+            if(!map[tp].shut.includes(r))map[tp].shut.push(r); vs.add(r); map[tp].tl=true;
+          }
+        }
+      }
+    });
+  }
+  if(H){ // meta' macchina spenta in prima e ultima passata (stesse file fisiche): parto da sx = meta' dx spenta, parto da dx = meta' sx spenta
+    [1,Np].forEach(p=>{
+      const and=map[p].direction==='ANDATA'; map[p].half=true;
+      for(let r=1;r<=S.rows;r++){
+        const c=and?(r-.5)*ir:(S.rows-r+.5)*ir, off2=L?c>S.seederW/2+1e-9:c<S.seederW/2-1e-9;
+        if(off2&&!map[p].shut.includes(r))map[p].shut.push(r); // chiusa dalla funzione mezza macchina: NON conta come valvola (HALF_VALVES=false)
+        if(off2&&HALF_VALVES)vs.add(r);
+      }
+    });
+  }
+  for(let p=1;p<=Np;p++)map[p].shut.sort((a,b)=>map[p].direction==='RITORNO'?b-a:a-b);
+  S.map=map; S.valved=[...vs].sort((a,b)=>a-b);
+  $('kVc').innerHTML=S.valved.length+' <em>'+T().rowsUnit+'</em>'; $('kVl').textContent=ranges(S.valved);
+  $('kTl').innerHTML=Object.values(map).filter(m=>m.tl).length+' <em>'+T().ofN+' '+S.N+'</em>';
+  if(S.cur>S.N)S.cur=1;
+}
+
+function render(){
+  compute();
+  const N=S.N, pd=S.map[S.cur], L=S.startSide==='left', and=pd.direction==='ANDATA';
+  $('bPrev').disabled=S.cur<=1; $('bNext').disabled=S.cur>=N;
+  $('pTitle').textContent=f(T().passOf,{c:S.cur,n:N});
+  const tag=$('pTag'); tag.textContent=dirText(pd.direction,L); tag.className='tag '+(and?'a':'r');
+  $('vTitle').textContent=S.view==='single'?f(T().pass,{c:S.cur}):T().fieldView;
+  const pills=$('pills'); pills.innerHTML='';
+  (L?[...Array(N).keys()].map(i=>i+1):[...Array(N).keys()].map(i=>N-i)).forEach(p=>{
+    const b=document.createElement('button'); b.className='pill'+(S.map[p].shut.length?' t':''); b.textContent='P'+p;
+    b.id='pl'+p; if(p===S.cur)b.setAttribute('aria-current','true'); b.onclick=()=>{S.cur=p;render()}; pills.appendChild(b);
+  });
+  const ap=$('pl'+S.cur); if(ap)pills.scrollTo({left:ap.offsetLeft,behavior:'smooth'});
+  drawSvg(pd); drawHeads(pd);
+  $('legMg').style.display=S.tol>0&&S.view==='single'?'':'none';
+  const hn=$('halfNote'); hn.hidden=!(S.half&&S.view==='field');
+  if(!hn.hidden)hn.innerHTML=f(T().halfNote,{Nc:S.Nc,N:S.N});
+}
+
+function drawSvg(pd){
+  const svg=$('svg'), st=$('stage'), L=S.startSide==='left', N=S.N; let h='';
+  if(S.view==='single'){
+    const W=Math.max(300,st.clientWidth), H=250, m=14, dw=W-2*m, top=30, bot=H-30, and=pd.direction==='ANDATA';
+    const rw=dw/S.rows, shut=new Set(pd.shut), vs=new Set(S.valved), mn=Math.min(...pd.shut), mx=Math.max(...pd.shut);
+    svg.setAttribute('viewBox',`0 0 ${W} ${H}`); svg.style.width=W+'px'; svg.style.height=H+'px';
+    h+=`<defs><clipPath id="c"><rect x="${m}" y="${top}" width="${dw}" height="${bot-top}" rx="8"/></clipPath><pattern id="tr" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#4a2c11" stroke-width="2.5"/></pattern></defs>`;
+    h+=`<rect class="fld" x="${m}" y="${top}" width="${dw}" height="${bot-top}" rx="8"/>`;
+    const cx=m+dw/2, cy=(top+bot)/2;
+    for(let k=-1;k<=1;k++){const y=cy+(and?-k:k)*46, a=and?16:-16;
+      h+=`<polyline class="chev" style="animation-delay:${(k+1)*.3}s" points="${cx-44},${y+a} ${cx},${y} ${cx+44},${y+a}"/>`}
+    pd.wheels.forEach(w=>{const tw=Math.max(8,S.tireW/(S.seederW*1000)*dw), x=m+w.relX*dw-tw/2, bw=Math.max(tw,(S.tireW+2*S.tol)/(S.seederW*1000)*dw), bx=m+w.relX*dw-bw/2;
+      if(S.tol>0)h+=`<g clip-path="url(#c)"><rect x="${bx}" y="${top}" width="${bw}" height="${bot-top}" fill="#4a2c11" opacity=".55"/></g>`;
+      h+=`<g clip-path="url(#c)"><rect x="${x}" y="${top}" width="${tw}" height="${bot-top}" fill="var(--tire)" opacity=".85"/><rect x="${x}" y="${top}" width="${tw}" height="${bot-top}" fill="url(#tr)"/></g>`});
+    const xOf=r=>m+((and?r-1:S.rows-r)+.5)*rw, gr=[];
+    [...shut].sort((a,b)=>a-b).forEach(r=>{const g=gr[gr.length-1]; if(g&&r===g.b+1)g.b=r; else gr.push({a:r,b:r})});
+    gr.forEach(g=>{g.x1=Math.min(xOf(g.a),xOf(g.b)); g.x2=Math.max(xOf(g.a),xOf(g.b)); g.lb=g.a===g.b?`${g.a}`:`${g.a}\u2013${g.b}`; g.pw=g.lb.length*7+18; g.pc=Math.min(W-m-g.pw/2,Math.max(m+g.pw/2,(g.x1+g.x2)/2))});
+    for(let r=1;r<=S.rows;r++){
+      const x=xOf(r), s=shut.has(r), sw=Math.max(1.4,Math.min(3,rw*.45));
+      h+=`<line x1="${x}" x2="${x}" y1="${top+22}" y2="${bot-22}" stroke="${s?'var(--off)':'var(--ok)'}" stroke-width="${sw}" ${s?'stroke-dasharray="5 4"':''}/>`;
+    }
+    const gap=rw>=16?rw:28; let lastX=-1e9;
+    for(let c=0;c<S.rows;c++){
+      const r=and?c+1:S.rows-c, x=m+(c+.5)*rw, end=c===S.rows-1;
+      if(gr.some(g=>x>g.pc-g.pw/2-8&&x<g.pc+g.pw/2+8))continue;
+      if(x-lastX<gap-.01&&!(end&&x-lastX>=gap*.6))continue;
+      lastX=x;
+      h+=`<text x="${x}" y="${and?top-9:bot+19}" text-anchor="middle" font-size="10" font-weight="600" fill="${vs.has(r)?'var(--yt)':'var(--mut)'}">${r}</text>`;
+    }
+    gr.forEach(g=>{const yb=and?top-4:bot+4, py=and?top-27:bot+8;
+      h+=`<line x1="${g.x1-2}" x2="${g.x2+2}" y1="${yb}" y2="${yb}" stroke="var(--off)" stroke-width="3" stroke-linecap="round"/><rect x="${g.pc-g.pw/2}" y="${py}" width="${g.pw}" height="19" rx="9.5" fill="var(--off)"/><text x="${g.pc}" y="${py+13.5}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">${g.lb}</text>`});
+    h+=`<rect x="${m}" y="${and?top+6:bot-14}" width="${dw}" height="8" rx="3" fill="var(--yg)"/>`;
+    const cy2=and?bot+5:top-27, ax=m+13, ay=cy2+11, u=and?-1:1;
+    h+=`<rect x="${m}" y="${cy2}" width="92" height="22" rx="11" fill="var(--card2)" stroke="var(--yg)"/><path d="M${ax} ${ay-6*u}V${ay+6*u}M${ax-5} ${ay+1*u}L${ax} ${ay+6*u}L${ax+5} ${ay+1*u}" fill="none" stroke="var(--yg)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><text x="${m+26}" y="${cy2+15}" font-size="12" font-weight="700" fill="var(--ink)">${and?T().fwd:T().back}</text>`;
+    svg.innerHTML=h; st.scrollLeft=0;
+  }else{
+    const HF=S.half, pw=36, dw=(HF?S.Nc:N)*pw, W=dw+40, H=250, top=30, bot=H-20, m=20;
+    svg.setAttribute('viewBox',`0 0 ${W} ${H}`); svg.style.width=W+'px'; svg.style.height=H+'px';
+    const pxh=v=>m+v/S.seederW*pw; let selC=0;
+    h+=`<rect class="fld" x="${m}" y="${top}" width="${dw}" height="${bot-top}" rx="8"/>`;
+    for(let p=1;p<=N;p++){
+      const hc=HF&&(p===1||p===N), wd=hc?pw/2:pw, o0=HF?(p===1?0:(p-1.5)*pw):(p-1)*pw; // mezza macchina: P1 e ultima a mezza larghezza, P2 parte dove finisce la metà seminata di P1
+      const x=HF?(L?m+o0:m+dw-o0-wd):m+(L?p-1:N-p)*pw, pi=S.map[p], sel=p===S.cur, t=pi.shut.length>0;
+      if(sel)selC=x+wd/2;
+      h+=`<rect data-p="${p}" x="${x}" y="${top}" width="${wd}" height="${bot-top}" style="cursor:pointer" fill="${sel?'var(--ysel)':t?'var(--ytr)':'transparent'}" stroke="${sel?'var(--yg)':'var(--line)'}" stroke-width="${sel?2.5:1}"/>`;
+      if(sel){const up=pi.direction==='ANDATA', cxx=x+wd/2, hw=Math.min(11,wd/2-1);
+        [0,1,2,3].map(i=>top+(bot-top)*(i+.5)/4).forEach((y,i)=>{const a=up?8:-8, d=(up?3-i:i)*.22;
+          h+=`<polyline class="chev" style="stroke-width:4;pointer-events:none;animation-delay:${d}s" points="${cxx-hw},${y+a} ${cxx},${y} ${cxx+hw},${y+a}"/>`})}
+      pi.wheels.forEach(w=>{const wx=HF?pxh(w.fx):x+w.relX*pw; if(wx<x||wx>=x+wd)return; h+=`<rect x="${wx-3}" y="${top+6}" width="6" height="${bot-top-12}" rx="3" fill="var(--tire)" pointer-events="none"/>`});
+      if(hc)h+=`<text x="${x+wd/2}" y="${bot+13}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--yt)" pointer-events="none">\u00bd</text>`;
+      h+=`<text x="${x+wd/2}" y="${top-9}" text-anchor="middle" font-size="10" font-weight="600" fill="${sel?'var(--yt)':t?'var(--yt)':'var(--mut)'}" pointer-events="none">P${p}</text>`;
+    }
+    const w0=pd.wheels[0];
+    if(w0){const cx=w0.cx, tw=S.Nc*S.seederW;
+      const px=v=>m+v/S.seederW*pw, l=Math.max(px(0),px(cx-S.sprayerW/2)), r=Math.min(px(tw),px(cx+S.sprayerW/2)), y=top+(bot-top)/2;
+      h+=`<rect x="${l}" y="${y}" width="${r-l}" height="30" fill="rgba(56,189,248,.14)" pointer-events="none"/><line x1="${l}" x2="${r}" y1="${y}" y2="${y}" stroke="var(--spr)" stroke-width="4" stroke-linecap="round" pointer-events="none"/>`;
+      const yd=y-44, mx2=(l+r)/2, lb=`${T().legSprayer} \u00b7 ${lang==='en'?String(S.sprayerW):String(S.sprayerW).replace('.',',')} m`, lw=lb.length*6.4+24;
+      h+=`<g pointer-events="none"><line x1="${l}" x2="${r}" y1="${yd}" y2="${yd}" stroke="var(--spr)" stroke-width="1.5"/><path d="M${l} ${yd-5}V${yd+5}M${r} ${yd-5}V${yd+5}" fill="none" stroke="var(--spr)" stroke-width="2" stroke-linecap="round"/><rect x="${mx2-lw/2}" y="${yd-11}" width="${lw}" height="22" rx="11" fill="var(--card)" stroke="var(--spr)"/><text x="${mx2}" y="${yd+4}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">${lb}</text></g>`;
+      if(px(cx)>=px(0)&&px(cx)<=px(tw))h+=`<rect x="${px(cx)-10}" y="${y-14}" width="20" height="28" rx="5" fill="var(--yg)" stroke="var(--yink)" stroke-width="1.5" pointer-events="none"/>`;
+    }
+    svg.innerHTML=h;
+    st.scrollTo({left:(HF?selC:m+(L?S.cur-1:N-S.cur)*pw+pw/2)-st.clientWidth/2,behavior:'smooth'});
+  }
+}
+
+function drawHeads(pd){
+  const shut=new Set(pd.shut), vs=new Set(S.valved), R=S.rows;
+  $('vStat').innerHTML=shut.size?`<span class="dot off"></span>${pd.half?T().halfShort:T().tlActive} · ${f(T().closedN,{n:shut.size,r:ranges([...shut].sort((a,b)=>a-b))})}`:`<span class="dot"></span>${T().normal}`;
+  const c=$('heads'); c.innerHTML='';
+  for(let i=1;i<=S.heads;i++){
+    const a=S.heads===1?1:i===1?1:Math.floor(R/2)+1, b=S.heads===1?R:i===1?Math.floor(R/2):R;
+    const t=S.heads===1?T().headOne:i===1?T().head1l:T().head2r;
+    let v='',mp=''; for(let r=a;r<=b;r++){const o=shut.has(r), w=vs.has(r);
+      mp+=`<i class="tk${o?' o':w?' w':''}"></i>`;
+      v+=`<div class="v ${o?'o':w?'w':''}">${r}${o?'<small>OFF</small>':''}</div>`}
+    const d=document.createElement('div'); d.className='head'+(S.heads===1?' one':'');
+    d.innerHTML=`<header>${t}<span>${f(T().rowsRange,{a,b})}</span></header><div class="map" style="grid-template-columns:repeat(${b-a+1},1fr);gap:${b-a>30?1:3}px">${mp}</div><div class="mapl"><span>${f(T().rowN,{r:a})}</span><span>${f(T().rowN,{r:b})}</span></div><div class="valves">${v}</div>`; c.appendChild(d);
+  }
+}
+
+function syncControls(){
+  document.querySelectorAll('input[data-k]').forEach(i=>i.value=S[i.dataset.k]);
+  document.querySelectorAll('.seg').forEach(g=>g.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(S[g.dataset.s])===b.dataset.v)));
+}
+document.querySelectorAll('input[data-k]').forEach(i=>i.addEventListener('input',()=>{
+  const k=i.dataset.k, v=k==='rows'?parseInt(i.value):parseFloat(i.value);
+  S[k]=Math.max(MIN[k],isNaN(v)?D[k]:v); render();
+}));
+document.querySelectorAll('.seg').forEach(g=>g.addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return; const k=g.dataset.s, v=b.dataset.v;
+  S[k]=k==='heads'?+v:k==='half'?v==='true':v; syncControls(); render();
+}));
+const step=d=>{const n=Math.min(S.N,Math.max(1,S.cur+d)); if(n!==S.cur){S.cur=n; render()}};
+$('bPrev').onclick=()=>step(-1); $('bNext').onclick=()=>step(1);
+addEventListener('keydown',e=>{if(e.target.matches('input'))return; if(e.key==='ArrowLeft')step(-1); if(e.key==='ArrowRight')step(1)});
+$('svg').addEventListener('click',e=>{const p=e.target.closest('[data-p]'); if(p){S.cur=+p.dataset.p; render()}});
+$('bReset').onclick=()=>{Object.assign(S,D,{cur:1}); syncControls(); render()};
+const sheet=o=>{$('side').classList.toggle('open',o); $('scrim').classList.toggle('on',o)};
+$('bParams').onclick=()=>sheet(true); $('bClose').onclick=()=>sheet(false); $('scrim').onclick=()=>sheet(false);
+$('bPrint').onclick=()=>{
+  $('pDate').textContent=new Date().toLocaleDateString(T().locale);
+  const rows=[[T().seeder,`${S.seederW} m · ${S.rows} ${T().rowsUnit}`],[T().interrow,$('kIr').textContent],[T().legSprayer,S.sprayerW+' m'],[T().track,S.trackW+' m'],[T().tire,S.tireW+' mm'],[T().headsShort,S.heads],[T().margin,f(T().perSide,{v:S.tol})],[T().halfShort,S.half?T().yes:T().no]];
+  $('pDl').innerHTML=rows.map(r=>`<dt>${r[0]}</dt><dd>${r[1]}</dd>`).join('');
+  $('pRh').textContent=S.N+' '+T().passes;
+  $('pVl').innerHTML=S.valved.map(r=>`<span>${f(T().rowN,{r})}</span>`).join('');
+  $('dlg').showModal();
+};
+$('dClose').onclick=$('dClose2').onclick=()=>$('dlg').close();
+let rt; new ResizeObserver(()=>{clearTimeout(rt);rt=setTimeout(()=>{if(S.view==='single')drawSvg(S.map[S.cur])},80)}).observe($('stage'));
+const root=document.documentElement, mq=matchMedia('(prefers-color-scheme: light)');
+const SUN='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+const MOON='<svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+const eff=()=>root.dataset.theme||(mq.matches?'light':'dark');
+const paintTheme=()=>{const d=eff()==='dark';const tc=document.querySelector('meta[name=theme-color]'); if(tc)tc.content=d?'#161d2a':'#ffffff';$('bTheme').innerHTML=d?SUN:MOON;$('bTheme').setAttribute('aria-label',d?T().toLight:T().toDark)};
+try{const t=localStorage.getItem('tl-theme');if(t)root.dataset.theme=t}catch(e){}
+$('bTheme').onclick=()=>{const n=eff()==='dark'?'light':'dark';root.dataset.theme=n;try{localStorage.setItem('tl-theme',n)}catch(e){}paintTheme()};
+mq.addEventListener('change',paintTheme);
+const closeLang=()=>$('langMenu').classList.remove('show');
+function applyLang(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(e=>e.textContent=T()[e.dataset.i18n]);
+  document.querySelectorAll('[data-i18n-aria]').forEach(e=>e.setAttribute('aria-label',T()[e.dataset.i18nAria]));
+  $('currentLang').innerHTML=flagImg(lang); $('bLang').setAttribute('aria-label',T().langName);
+  $('langMenu').innerHTML=Object.keys(translations).map(l=>`<button data-l="${l}"${l===lang?' aria-current="true"':''}>${flagImg(l)}${translations[l].langName}</button>`).join('');
+  paintTheme(); render();
+}
+
+function setLang(l){lang=l; try{localStorage.setItem('tl-lang',l)}catch(e){} closeLang(); applyLang()}
+$('bLang').onclick=e=>{e.stopPropagation(); $('langMenu').classList.toggle('show')};
+$('langMenu').addEventListener('click',e=>{const b=e.target.closest('button[data-l]'); if(b)setLang(b.dataset.l)});
+addEventListener('click',e=>{if(!e.target.closest('.lw'))closeLang()});
+const topEl=document.querySelector('.top'), setTopH=()=>document.documentElement.style.setProperty('--topH',topEl.offsetHeight+'px');
+setTopH(); new ResizeObserver(setTopH).observe(topEl); addEventListener('resize',setTopH);
+syncControls(); applyLang();
+</script>
+</body>
+</html>
